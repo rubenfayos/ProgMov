@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AEV1</string>
+    <string-array name="permisos">
+        <item value="1">Permiso A</item>
+        <item>Permiso B</item>
+        <item>Permiso C</item>
+        <item>Permiso D</item>
+    </string-array>
+</resources>
