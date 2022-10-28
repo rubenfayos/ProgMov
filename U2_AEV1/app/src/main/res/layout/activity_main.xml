@@ -15,18 +15,22 @@
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="wrap_content"
+            android:layout_width="700px"
             android:layout_height="400px"
-            android:layout_marginTop="26dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="72dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clickText" />
+
 
         <Button
             android:id="@+id/fondoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="132dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="28dp"
             android:text="Fondo rojo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,20 +39,19 @@
             android:id="@+id/letrasButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="132dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="24dp"
             android:text="Letras rojas"
             android:textColor="#C3C3C3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fondoButton" />
 
-
         <CheckBox
             android:id="@+id/mostrarCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="12dp"
             android:checked="true"
             android:text="mostrar"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,8 +61,8 @@
             android:id="@+id/mensajeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="24dp"
             android:text="Mensaje visible"
             app:layout_constraintStart_toEndOf="@+id/mostrarCheckBox"
             app:layout_constraintTop_toBottomOf="@+id/letrasButton" />
@@ -84,8 +87,19 @@
             android:layout_marginTop="20dp"
             android:onClick="playVideo"
             android:text="ver Video"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+        <Switch
+            android:id="@+id/buttonSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginBottom="16dp"
+            android:text="Activar vídeo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

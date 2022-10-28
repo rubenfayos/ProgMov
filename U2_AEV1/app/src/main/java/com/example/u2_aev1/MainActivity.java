@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.MediaController;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ratingText = findViewById(R.id.ratingText);
         fondoColor = findViewById(R.id.colorFondo);
         Button videoButton = findViewById(R.id.videoButton);
+        Switch buttonSwitch = findViewById(R.id.buttonSwitch);
 
          simpleVideoView = (VideoView) findViewById(R.id.videoView);
 
@@ -146,6 +149,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buttonSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(buttonSwitch.isChecked()){
+                    videoButton.setVisibility(View.VISIBLE);
+                }else{
+                    videoButton.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
 
 
     }
