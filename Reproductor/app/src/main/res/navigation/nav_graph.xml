@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MP3">
+
+    <fragment
+        android:id="@+id/MP3"
+        android:name="com.example.reproductor.MP3"
+        android:label="fragment_m_p3"
+        tools:layout="@layout/fragment_m_p3" >
+        <action
+            android:id="@+id/action_MP3_to_prueba"
+            app:destination="@id/prueba" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/prueba"
+        android:name="com.example.reproductor.prueba"
+        android:label="fragment_prueba"
+        tools:layout="@layout/fragment_prueba" />
+</navigation>
