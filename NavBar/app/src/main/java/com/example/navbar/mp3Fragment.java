@@ -1,15 +1,18 @@
 package com.example.navbar;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -19,6 +22,8 @@ import java.io.IOException;
  * create an instance of this fragment.
  */
 public class mp3Fragment extends Fragment {
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,22 +66,44 @@ public class mp3Fragment extends Fragment {
 
     }
 
+    private SeekBar seekBar;
+    private MediaPlayer mediaPlayer;
+    private Runnable runnable;
+    private Handler handler;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_mp3, container, false);
 
+        handler = new Handler();
+        seekBar = (SeekBar) v.findViewById(R.id.seekBar);
+        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.nokia);
         Button playButton = (Button) v.findViewById(R.id.playButton);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playMp3();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    playButton.setText("Play");
+                }else{
+                    mediaPlayer.start();
+                    changeSeekbar();
+                    playButton.setText("Pause");
                 }
+            }
+        });
+
+
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                seekBar.setMax(mediaPlayer.getDuration());
+                mediaPlayer.start();
+                changeSeekbar();
             }
         });
 
@@ -84,8 +111,32 @@ public class mp3Fragment extends Fragment {
         return v;
     }
 
+    public void changeSeekbar() {
+        //Le añade el progreso actual a la barra
+        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+
+        //Comprueba que el audio siga ejecutandose
+        if(mediaPlayer.isPlaying()){
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    //reitera la funcion hasta que esta termine
+                    changeSeekbar();
+                }
+            };
+            handler.postDelayed(runnable, 1000);
+        }
+    }
+
     public void playMp3() throws IOException {
 
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.nokia);
+        mediaPlayer.start();
+
+
+
+    /*
         String filename = "android.resource://" + this.getActivity().getPackageName() + "/raw/nokia.mp3";
 
         MediaPlayer mp=new MediaPlayer();
@@ -96,6 +147,9 @@ public class mp3Fragment extends Fragment {
             mp.start();
 
         }catch(Exception e){e.printStackTrace();}
+
+
+     */
 
     }
 
