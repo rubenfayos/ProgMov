@@ -2,11 +2,20 @@ package com.example.navbar;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +67,82 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        ConstraintLayout constraintLayout = (ConstraintLayout) v.findViewById(R.id.constraintLayout);
+
+
+
+        ArrayList<Cancion> canciones = new ArrayList<>();
+
+        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", "a", "Vida", "Canserbero"));
+        canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", "a", "5:05 pm", "Leïti Sene & Trueno"));
+        canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", "a", "Shooters", "Sticky M.A & Steve Lean"));
+        canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", "a", "Horoscopo", "Yung beef & Yung Caza"));
+        canciones.add(new Cancion("https://monopoliourbano.co/wp-content/uploads/2019/05/Jhay-Cortez-Famouz-Cover-y-Tracklist-664x664.jpg", "a", "Subiendo de nivel", "Jhay Cortez"));
+        canciones.add(new Cancion("https://cdn.smehost.net/estopacom-mendivilprod/wp-content/uploads/2015/07/27170732/Car%C3%A1tula_Frontal-estopa.jpg", "a", "Como camarón", "Estopa"));
+        int postitionx = 60;
+        int positiciony = 100;
+
+        //Iterador de creación de botones
+        for(int i = 0; i < canciones.size(); i++) {
+            Cancion c = canciones.get(i);
+
+            ImageButton imageButton = new ImageButton(getActivity());
+            TextView text = new TextView(getActivity());
+            text.setText(c.getNombre());
+            text.setTranslationX(postitionx+20);
+            text.setTranslationY(positiciony+450);
+            imageButton.setTranslationX(postitionx);
+            imageButton.setTranslationY(positiciony);
+
+            if(i % 2 == 0)
+                postitionx+= 500;
+
+            if(i % 2 != 0) {
+                positiciony += 550;
+                postitionx-= 500;
+
+            }
+
+            Picasso.with(getActivity())
+                    .load(c.getUrlImagen())
+                    .resize(400, 400)
+                    .into(imageButton);
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    replaceFragment(new mp3Fragment());
+                }
+            });
+
+            constraintLayout.addView(imageButton);
+            constraintLayout.addView(text);
+
+        }
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return v;
     }
+
+    private void replaceFragment(Fragment fragment){
+
+        //Cambiar fragmento
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+
+        Bundle b = new Bundle();
+        b.putString("a", "c.getNombre()");
+        mp3Fragment mp3 = new mp3Fragment();
+        mp3.setArguments(b);
+
+    }
+
 }

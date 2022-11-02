@@ -1,20 +1,31 @@
 package com.example.navbar;
 
-import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +81,7 @@ public class mp3Fragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private Runnable runnable;
     private Handler handler;
+    private Button playButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,10 +89,24 @@ public class mp3Fragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_mp3, container, false);
 
+        Bundle b = getArguments();
+
+        String prueba = b.getString("a");
+
+        TextView textView2 = v.findViewById(R.id.textView2);
+
+        textView2.setText(prueba);
+
         handler = new Handler();
         seekBar = (SeekBar) v.findViewById(R.id.seekBar);
         mediaPlayer = MediaPlayer.create(getActivity(), R.raw.nokia);
-        Button playButton = (Button) v.findViewById(R.id.playButton);
+        playButton = (Button) v.findViewById(R.id.playButton);
+        ImageView image = (ImageView) v.findViewById(R.id.imageView);
+
+        Picasso.with(getActivity()).load("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg").into(image);
+
+        //asigna la duracion de la cancion
+        seekBar.setMax(mediaPlayer.getDuration());
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,20 +122,52 @@ public class mp3Fragment extends Fragment {
             }
         });
 
+        Button plusButton = (Button) v.findViewById(R.id.plusButton);
+        Button minusButton = (Button) v.findViewById(R.id.minusButton);
 
-
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                seekBar.setMax(mediaPlayer.getDuration());
-                mediaPlayer.start();
-                changeSeekbar();
+            public void onClick(View v) {
+                //Añade 5 segundos a la reproduccion
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition()+5000);
             }
         });
+
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //resta 5 segundos a la reproduccion
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition()-5000);
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //Coge la posicion del usuario y se mueve a ella
+                if(fromUser){
+                    mediaPlayer.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return v;
     }
+
+
 
     public void changeSeekbar() {
         //Le añade el progreso actual a la barra
@@ -125,7 +183,13 @@ public class mp3Fragment extends Fragment {
                 }
             };
             handler.postDelayed(runnable, 1000);
+        }else{
+            mediaPlayer.seekTo(0);
+            playButton.setText("Play");
         }
+
+
+
     }
 
     public void playMp3() throws IOException {
@@ -135,22 +199,6 @@ public class mp3Fragment extends Fragment {
         mediaPlayer.start();
 
 
-
-    /*
-        String filename = "android.resource://" + this.getActivity().getPackageName() + "/raw/nokia.mp3";
-
-        MediaPlayer mp=new MediaPlayer();
-
-        try{
-            mp.setDataSource(getActivity(), Uri.parse(filename));
-            mp.prepare();
-            mp.start();
-
-        }catch(Exception e){e.printStackTrace();}
-
-
-     */
-
     }
 
-    }
+}
