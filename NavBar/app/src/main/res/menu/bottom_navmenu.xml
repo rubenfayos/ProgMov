@@ -6,7 +6,4 @@
     <item android:title="Reproductor mp3"
         android:id="@+id/mp3"
         android:icon="@drawable/ic_baseline_headphones_24"/>
-    <item android:title="Calendario"
-        android:id="@+id/calendar"
-        android:icon="@drawable/ic_baseline_calendar_month_24"/>
 </menu>

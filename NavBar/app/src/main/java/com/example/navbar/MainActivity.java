@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mp3:
                         replaceFragment(new mp3Fragment());
                         break;
-                    case R.id.calendar:
-                        replaceFragment(new CalendarFragment());
-                        break;
                 }
                 return false;
             }

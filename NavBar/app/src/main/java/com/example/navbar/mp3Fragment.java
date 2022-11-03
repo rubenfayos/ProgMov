@@ -1,16 +1,12 @@
 package com.example.navbar;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,21 +81,38 @@ public class mp3Fragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_mp3, container, false);
 
-        Bundle b = getArguments();
-
-        String prueba = b.getString("a");
-
-        TextView textView2 = v.findViewById(R.id.textView2);
-
-        textView2.setText(prueba);
-
+        TextView cancionText = v.findViewById(R.id.cancionText);
+        TextView artistaText = v.findViewById(R.id.artistaText);
         handler = new Handler();
         seekBar = (SeekBar) v.findViewById(R.id.seekBar);
-        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.nokia);
+        mediaPlayer = new MediaPlayer();
         playButton = (Button) v.findViewById(R.id.playButton);
         ImageView image = (ImageView) v.findViewById(R.id.imageView);
 
-        Picasso.with(getActivity()).load("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg").into(image);
+        Bundle b = getArguments();
+
+        Cancion c = new Cancion();
+
+        c.setNombre(b.getString("nombre"));
+        c.setArtista(b.getString("artista"));
+        c.setUrlImagen(b.getString("urlImagen"));
+        c.setUrlAudio(b.getString("urlAudio"));
+
+        cancionText.setText(c.getNombre());
+        artistaText.setText(c.getArtista());
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        try {
+            mediaPlayer.setDataSource(c.getUrlAudio());
+            mediaPlayer.prepare();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //asigna la imagen
+        Picasso.with(getActivity()).load(c.getUrlImagen()).into(image);
 
         //asigna la duracion de la cancion
         seekBar.setMax(mediaPlayer.getDuration());
@@ -187,17 +196,6 @@ public class mp3Fragment extends Fragment {
             mediaPlayer.seekTo(0);
             playButton.setText("Play");
         }
-
-
-
-    }
-
-    public void playMp3() throws IOException {
-
-
-        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.nokia);
-        mediaPlayer.start();
-
 
     }
 

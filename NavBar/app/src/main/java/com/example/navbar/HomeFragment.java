@@ -74,16 +74,16 @@ public class HomeFragment extends Fragment {
 
         ConstraintLayout constraintLayout = (ConstraintLayout) v.findViewById(R.id.constraintLayout);
 
-
-
         ArrayList<Cancion> canciones = new ArrayList<>();
 
-        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", "a", "Vida", "Canserbero"));
-        canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", "a", "5:05 pm", "Leïti Sene & Trueno"));
-        canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", "a", "Shooters", "Sticky M.A & Steve Lean"));
-        canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", "a", "Horoscopo", "Yung beef & Yung Caza"));
-        canciones.add(new Cancion("https://monopoliourbano.co/wp-content/uploads/2019/05/Jhay-Cortez-Famouz-Cover-y-Tracklist-664x664.jpg", "a", "Subiendo de nivel", "Jhay Cortez"));
-        canciones.add(new Cancion("https://cdn.smehost.net/estopacom-mendivilprod/wp-content/uploads/2015/07/27170732/Car%C3%A1tula_Frontal-estopa.jpg", "a", "Como camarón", "Estopa"));
+        //canciones
+        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Vida", "Canserbero"));
+        canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "5:05 pm", "Leïti Sene & Trueno"));
+        canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Shooters", "Sticky M.A & Steve Lean"));
+        canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Horoscopo", "Yung beef & Yung Caza"));
+        canciones.add(new Cancion("https://t2.genius.com/unsafe/440x440/https:%2F%2Fimages.genius.com%2Ff4364d3916934b8fc13274a54c5566fc.1000x1000x1.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Subiendo de nivel", "Jhay Cortez"));
+        canciones.add(new Cancion("https://cdn.smehost.net/estopacom-mendivilprod/wp-content/uploads/2015/07/27170732/Car%C3%A1tula_Frontal-estopa.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Como camarón", "Estopa"));
+
         int postitionx = 60;
         int positiciony = 100;
 
@@ -112,11 +112,13 @@ public class HomeFragment extends Fragment {
                     .load(c.getUrlImagen())
                     .resize(400, 400)
                     .into(imageButton);
+
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    replaceFragment(new mp3Fragment());
+                    replaceFragment(new mp3Fragment(), c);
+
                 }
             });
 
@@ -130,7 +132,15 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment, Cancion c){
+
+        //Asignacion argumentos fragmento
+        Bundle b = new Bundle();
+        b.putString("nombre", c.getNombre());
+        b.putString("artista", c.getArtista());
+        b.putString("urlImagen", c.getUrlImagen());
+        b.putString("urlAudio", c.getUrlAudio());
+        fragment.setArguments(b);
 
         //Cambiar fragmento
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -138,10 +148,8 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
 
-        Bundle b = new Bundle();
-        b.putString("a", "c.getNombre()");
-        mp3Fragment mp3 = new mp3Fragment();
-        mp3.setArguments(b);
+
+
 
     }
 
