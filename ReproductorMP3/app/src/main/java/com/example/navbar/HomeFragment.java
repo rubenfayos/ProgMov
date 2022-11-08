@@ -77,12 +77,12 @@ public class HomeFragment extends Fragment {
         ArrayList<Cancion> canciones = new ArrayList<>();
 
         //canciones
-        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Vida", "Canserbero"));
-        canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "5:05 pm", "Leïti Sene & Trueno"));
-        canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Shooters", "Sticky M.A & Steve Lean"));
-        canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Horoscopo", "Yung beef & Yung Caza"));
-        canciones.add(new Cancion("https://t2.genius.com/unsafe/440x440/https:%2F%2Fimages.genius.com%2Ff4364d3916934b8fc13274a54c5566fc.1000x1000x1.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Subiendo de nivel", "Jhay Cortez"));
-        canciones.add(new Cancion("https://cdn.smehost.net/estopacom-mendivilprod/wp-content/uploads/2015/07/27170732/Car%C3%A1tula_Frontal-estopa.jpg", "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "Como camarón", "Estopa"));
+        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", R.raw.vida, "Vida", "Canserbero"));
+        canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", R.raw.c5_05pm, "5:05 pm", "Leïti Sene & Trueno"));
+        canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", R.raw.bajo_la_lluvia, "Shooters", "Sticky M.A & Steve Lean"));
+        canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", R.raw.horoscopo, "Horoscopo", "Yung beef & Yung Caza"));
+        canciones.add(new Cancion("https://t2.genius.com/unsafe/440x440/https:%2F%2Fimages.genius.com%2Ff4364d3916934b8fc13274a54c5566fc.1000x1000x1.jpg", R.raw.subiendo_de_nivel, "Subiendo de nivel", "Jhay Cortez"));
+        canciones.add(new Cancion("https://cdn.smehost.net/estopacom-mendivilprod/wp-content/uploads/2015/07/27170732/Car%C3%A1tula_Frontal-estopa.jpg", R.raw.como_camaron, "Como camarón", "Estopa"));
 
         int postitionx = 60;
         int positiciony = 100;
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
         b.putString("nombre", c.getNombre());
         b.putString("artista", c.getArtista());
         b.putString("urlImagen", c.getUrlImagen());
-        b.putString("urlAudio", c.getUrlAudio());
+        b.putInt("mp3", c.getmp3());
         fragment.setArguments(b);
 
         //Cambiar fragmento

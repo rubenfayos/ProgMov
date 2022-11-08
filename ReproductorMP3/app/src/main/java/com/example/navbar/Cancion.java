@@ -13,11 +13,11 @@ public class Cancion {
         this.urlImagen = urlImagen;
     }
 
-    public int getUrlAudio() {
+    public int getmp3() {
         return mp3;
     }
 
-    public void setUrlAudio(int mp3) {
+    public void setmp3(int mp3) {
         this.mp3 = mp3;
     }
 

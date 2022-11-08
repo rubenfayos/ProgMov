@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -91,39 +92,50 @@ public class mp3Fragment extends Fragment {
 
         Bundle b = getArguments();
 
-        Cancion c = new Cancion();
+        if(b.isEmpty()){
 
-        c.setNombre(b.getString("nombre"));
-        c.setArtista(b.getString("artista"));
-        c.setUrlImagen(b.getString("urlImagen"));
-        c.setUrlAudio(b.getString("urlAudio"));
+        }else {
 
-        cancionText.setText(c.getNombre());
-        artistaText.setText(c.getArtista());
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            Cancion c = new Cancion();
 
-        try {
-            mediaPlayer.setDataSource(c.getUrlAudio());
-            mediaPlayer.prepare();
+            c.setNombre(b.getString("nombre"));
+            c.setArtista(b.getString("artista"));
+            c.setUrlImagen(b.getString("urlImagen"));
+            c.setmp3(b.getInt("mp3"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            cancionText.setText(c.getNombre());
+            artistaText.setText(c.getArtista());
+
+            try {
+                mediaPlayer = MediaPlayer.create(getActivity(), c.getmp3());
+                mediaPlayer.start();
+                changeSeekbar();
+                playButton.setText("Pause");
+            } catch (Exception e) {
+                System.out.println("a");
+            }
+
+            //asigna la imagen
+            Picasso.with(getActivity()).load(c.getUrlImagen()).into(image);
         }
 
 
-        //asigna la imagen
-        Picasso.with(getActivity()).load(c.getUrlImagen()).into(image);
 
         //asigna la duracion de la cancion
         seekBar.setMax(mediaPlayer.getDuration());
 
         playButton.setOnClickListener(new View.OnClickListener() {
+
+            int media_length = 0;
+
             @Override
             public void onClick(View v) {
                 if(mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     playButton.setText("Play");
+                    media_length=mediaPlayer.getCurrentPosition();
                 }else{
+                    mediaPlayer.seekTo(media_length);
                     mediaPlayer.start();
                     changeSeekbar();
                     playButton.setText("Pause");
