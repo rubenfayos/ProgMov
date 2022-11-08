@@ -2,7 +2,8 @@ package com.example.navbar;
 
 public class Cancion {
 
-    private String urlImagen, urlAudio, nombre, artista;
+    private String urlImagen, nombre, artista;
+    private int mp3;
 
     public String getUrlImagen() {
         return urlImagen;
@@ -12,12 +13,12 @@ public class Cancion {
         this.urlImagen = urlImagen;
     }
 
-    public String getUrlAudio() {
-        return urlAudio;
+    public int getUrlAudio() {
+        return mp3;
     }
 
-    public void setUrlAudio(String urlAudio) {
-        this.urlAudio = urlAudio;
+    public void setUrlAudio(int mp3) {
+        this.mp3 = mp3;
     }
 
     public String getNombre() {
@@ -39,9 +40,9 @@ public class Cancion {
     public Cancion() {
     }
 
-    public Cancion(String urlImagen, String urlAudio, String nombre, String artista) {
+    public Cancion(String urlImagen, int mp3, String nombre, String artista) {
         this.urlImagen = urlImagen;
-        this.urlAudio = urlAudio;
+        this.mp3 = mp3;
         this.nombre = nombre;
         this.artista = artista;
     }
