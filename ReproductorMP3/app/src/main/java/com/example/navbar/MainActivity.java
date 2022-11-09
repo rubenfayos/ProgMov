@@ -15,12 +15,17 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    private HomeFragment homeFragment = new HomeFragment();
+    private mp3Fragment mp3Fragment = new mp3Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
 
         //fragmento predeterminado
         replaceFragment(new HomeFragment());
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }
