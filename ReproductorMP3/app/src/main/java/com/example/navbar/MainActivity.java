@@ -15,8 +15,6 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    private HomeFragment homeFragment = new HomeFragment();
-    private mp3Fragment mp3Fragment = new mp3Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

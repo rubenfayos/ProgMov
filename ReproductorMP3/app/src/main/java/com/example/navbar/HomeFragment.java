@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private Singletone s = Singletone.getInstance();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -113,6 +114,8 @@ public class HomeFragment extends Fragment {
         b.putString("urlImagen", c.getUrlImagen());
         b.putInt("mp3", c.getmp3());
         fragment.setArguments(b);
+
+        s.setData(c);
 
         //Cambiar fragmento
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
