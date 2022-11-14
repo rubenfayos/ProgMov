@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new mp3Fragment());
                         break;
                 }
-                return false;
+                return true;
             }
 
         });

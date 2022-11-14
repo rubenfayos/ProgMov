@@ -26,14 +26,6 @@ public class mp3Fragment extends Fragment {
 
     Cancion c;
 
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-
-        outState.putParcelable("cancion", (Parcelable) c);
-        super.onSaveInstanceState(outState);
-    }
-
     private SeekBar seekBar;
     private MediaPlayer mediaPlayer;
     private Runnable runnable;
@@ -54,86 +46,103 @@ public class mp3Fragment extends Fragment {
         playButton = (Button) v.findViewById(R.id.playButton);
         ImageView image = (ImageView) v.findViewById(R.id.imageView);
 
+        //coge la canción
         c = s.getData();
 
-        cancionText.setText(c.getNombre());
-        artistaText.setText(c.getArtista());
+        if(c!= null) {
 
-        try {
-            mediaPlayer = MediaPlayer.create(getActivity(), c.getmp3());
-            mediaPlayer.start();
+            cancionText.setText(c.getNombre());
+            artistaText.setText(c.getArtista());
+
+
+            if (c.getEstado() == 0) {
+
+                //Comprueba si es la primera vez que abres la cancion, crea el media player con la cancion
+                mediaPlayer = MediaPlayer.create(getActivity(), c.getmp3());
+                mediaPlayer.start();
+                c.setMediaPlayer(mediaPlayer);
+                s.setData(c);
+
+            } else {
+
+                //Si no es la primera vez coge le media player y lo asigna
+                mediaPlayer = c.getMediaPlayer();
+                mediaPlayer.seekTo(c.getEstado());
+                mediaPlayer.start();
+
+            }
+
+            //Metodo de la movimiento de la barra
             changeSeekbar();
             playButton.setText("Pause");
-        } catch (Exception e) {
-            System.out.println("a");
+
+            //asigna la imagen
+            Picasso.with(getActivity()).load(c.getUrlImagen()).fit().into(image);
+
+            //asigna la duracion de la cancion
+            seekBar.setMax(mediaPlayer.getDuration());
+
+            playButton.setOnClickListener(new View.OnClickListener() {
+
+                int media_length = 0;
+
+                @Override
+                public void onClick(View v) {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        playButton.setText("Play");
+                        media_length = mediaPlayer.getCurrentPosition();
+                    } else {
+                        mediaPlayer.seekTo(media_length);
+                        mediaPlayer.start();
+                        changeSeekbar();
+                        playButton.setText("Pause");
+                    }
+                }
+            });
+
+            Button plusButton = (Button) v.findViewById(R.id.plusButton);
+            Button minusButton = (Button) v.findViewById(R.id.minusButton);
+
+            plusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Añade 5 segundos a la reproduccion
+                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000);
+
+                }
+            });
+
+            minusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //resta 5 segundos a la reproduccion
+                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000);
+                }
+            });
+
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    //Coge la posicion del usuario y se mueve a ella
+                    if (fromUser) {
+                        mediaPlayer.seekTo(progress);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
         }
-
-        //asigna la imagen
-        Picasso.with(getActivity()).load(c.getUrlImagen()).into(image);
-
-
-        //asigna la duracion de la cancion
-        seekBar.setMax(mediaPlayer.getDuration());
-
-        playButton.setOnClickListener(new View.OnClickListener() {
-
-            int media_length = 0;
-
-            @Override
-            public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    playButton.setText("Play");
-                    media_length = mediaPlayer.getCurrentPosition();
-                } else {
-                    mediaPlayer.seekTo(media_length);
-                    mediaPlayer.start();
-                    changeSeekbar();
-                    playButton.setText("Pause");
-                }
-            }
-        });
-
-        Button plusButton = (Button) v.findViewById(R.id.plusButton);
-        Button minusButton = (Button) v.findViewById(R.id.minusButton);
-
-        plusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Añade 5 segundos a la reproduccion
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000);
-
-            }
-        });
-
-        minusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //resta 5 segundos a la reproduccion
-                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000);
-            }
-        });
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //Coge la posicion del usuario y se mueve a ella
-                if (fromUser) {
-                    mediaPlayer.seekTo(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
         // Inflate the layout for this fragment
         return v;
@@ -143,7 +152,10 @@ public class mp3Fragment extends Fragment {
 
     public void changeSeekbar() {
         //Le añade el progreso actual a la barra
+        int a  = mediaPlayer.getCurrentPosition();
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
+        c.setEstado(a);
+        s.setData(c);
 
         //Comprueba que el audio siga ejecutandose
         if(mediaPlayer.isPlaying()){

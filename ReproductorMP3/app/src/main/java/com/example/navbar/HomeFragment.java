@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         ArrayList<Cancion> canciones = new ArrayList<>();
 
         //canciones
-        canciones.add(new Cancion("https://fotos.subefotos.com/44b95775c94bcc2e0f2293154448c6bbo.jpg", R.raw.vida, "Vida", "Canserbero"));
+        canciones.add(new Cancion("https://img.discogs.com/0TKeYOIPIMbyODFjGQXQAIcdcv4=/fit-in/600x541/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10965576-1558039178-3310.jpeg.jpg", R.raw.vida, "Vida", "Canserbero"));
         canciones.add(new Cancion("https://i0.wp.com/wwv.elgenero.cc/wp-content/uploads/2022/07/Leiti-Sene-Trueno-Bexnil-Chineseguy2021-%E2%80%93-505-Pm.jpg?w=1200&ssl=1", R.raw.c5_05pm, "5:05 pm", "Leïti Sene & Trueno"));
         canciones.add(new Cancion("https://jenesaispop.com/wp-content/uploads/2019/07/sticky-MA-steve-lean_5ta-dimension.jpg", R.raw.bajo_la_lluvia, "Shooters", "Sticky M.A & Steve Lean"));
         canciones.add(new Cancion("https://dopehiphop.net/wp-content/uploads/2021/04/El-Plugg-2-Mixtape-by-Yung-Beef-e1618839873923.jpg", R.raw.horoscopo, "Horoscopo", "Yung beef & Yung Caza"));
@@ -96,7 +96,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                replaceFragment(new mp3Fragment(), c);
+                //Comprueba si hay otra cancion para detenerla
+                if(s.getData() != null){
+                    s.getData().getMediaPlayer().stop();
+                }
+
+                //pasa el objeto al singleton
+                s.setData(c);
+                c.setEstado(0);
+
+                replaceFragment(new mp3Fragment());
 
             }
         });
@@ -105,18 +114,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void replaceFragment(Fragment fragment, Cancion c){
-
-        //Asignacion argumentos fragmento
-        Bundle b = new Bundle();
-        b.putString("nombre", c.getNombre());
-        b.putString("artista", c.getArtista());
-        b.putString("urlImagen", c.getUrlImagen());
-        b.putInt("mp3", c.getmp3());
-        fragment.setArguments(b);
-
-        s.setData(c);
-
+    private void replaceFragment(Fragment fragment){
         //Cambiar fragmento
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

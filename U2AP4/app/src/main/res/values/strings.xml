@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">U2AP4</string>
+    <string-array name="busquedas">
+        <item>Nada</item>
+        <item>Youtube</item>
+        <item>Google</item>
+        <item>Bing</item>
+        <item>Wikipedia</item>
+        <item>Yahoo</item>
+        <item>Amazon</item>
+    </string-array>
+
 </resources>

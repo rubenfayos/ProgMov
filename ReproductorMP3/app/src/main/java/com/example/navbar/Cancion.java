@@ -1,9 +1,12 @@
 package com.example.navbar;
 
+import android.media.MediaPlayer;
+
 public class Cancion {
 
     private String urlImagen, nombre, artista;
-    private int mp3;
+    private int mp3, estado;
+    private MediaPlayer mediaPlayer;
 
     public String getUrlImagen() {
         return urlImagen;
@@ -35,6 +38,22 @@ public class Cancion {
 
     public void setArtista(String artista) {
         this.artista = artista;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
     }
 
     public Cancion() {
