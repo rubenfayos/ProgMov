@@ -6,5 +6,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FAQ</title>
   </head>
-  <body></body>
+  <body>
+    <div>
+      <h2>FAQ</h2>
+    </div>
+    <div>
+      <button onclick="pregunta1()">
+        <h3>¿La aplicación es gratis?</h3>
+      </button>
+      <p id="pregunta1Text" hidden>
+        Claro, nuestra aplicacion es un proyecto de código abierto el cual
+        cualquiera puede ver y modificar a su gusto
+      </p>
+    </div>
+    <div>
+      <button onclick="pregunta2()">
+        <h3>¿Quienes son los desarrolladores?</h3>
+      </button>
+      <p id="pregunta2Text" hidden>
+        FayosINC es una empresa de desarrollo de software que nació en 2017,
+        actualmente cuenta con 32 empleados, puedes encontrar más información en
+        nuestra <a>página web</a>
+      </p>
+    </div>
+    <div>
+      <button onclick="pregunta3()">
+        <h3>¿En que version se encuentra el desarrollo de la aplicacion?</h3>
+      </button>
+      <p id="pregunta3Text" hidden>
+        actualmente nos encontramos en una version preliminar, esperamos sacar
+        pronto una versión definitiva
+      </p>
+    </div>
+    <div>
+      <button onclick="pregunta4()">
+        <h3>¿Qué funcionalidades pretendeis añadir en un futuro?</h3>
+      </button>
+      <p id="pregunta4Text" hidden>
+        En un futuro esperamos terminar de pulir el funcionamiento de la app,
+        tambien queremos añadir funcionalidades como añadir un historial con las
+        búsquedas
+      </p>
+    </div>
+  </body>
+  <style>
+    body {
+      background-color: lightgray;
+      margin: auto;
+    }
+    div {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1%;
+      margin: 1%;
+    }
+    button {
+      background-color: white;
+      border: 0ch;
+    }
+  </style>
+  <script>
+    function pregunta1() {
+      if (document.getElementById("pregunta1Text").hidden == true) {
+        document.getElementById("pregunta1Text").hidden = false;
+      } else {
+        document.getElementById("pregunta1Text").hidden = true;
+      }
+    }
+    function pregunta2() {
+      if (document.getElementById("pregunta2Text").hidden == true) {
+        document.getElementById("pregunta2Text").hidden = false;
+      } else {
+        document.getElementById("pregunta2Text").hidden = true;
+      }
+    }
+    function pregunta3() {
+      if (document.getElementById("pregunta3Text").hidden == true) {
+        document.getElementById("pregunta3Text").hidden = false;
+      } else {
+        document.getElementById("pregunta3Text").hidden = true;
+      }
+    }
+    function pregunta4() {
+      if (document.getElementById("pregunta4Text").hidden == true) {
+        document.getElementById("pregunta4Text").hidden = false;
+      } else {
+        document.getElementById("pregunta4Text").hidden = true;
+      }
+    }
+  </script>
 </html>
